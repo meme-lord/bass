@@ -12,7 +12,7 @@ def banner():
     print(''' _
 | |__   __ _ ___ ___
 | '_ \ / _` / __/ __|
-| |_) | (_| \__ \__ \\
+| |_) | (_| \\__ \\__ \\
 |_.__/ \__,_|___/___/''')
 
     # Author & contributor
@@ -27,10 +27,11 @@ def get_providers(domain):
     # list of filtered public resolvers is a provider by default
     providers = {'public'}
     try:
-        answers = dns.resolver.query(domain, 'NS')
+        answers = dns.resolver.resolve(domain, 'NS')
     except dns.exception.DNSException:
         print(f"Domain {domain} failed to resolve", file=stderr)
-        return {}
+        return providers
+        #return {}
 
     for server in answers:
         # resolver here outputs with the . at the end, so need to rstrip
